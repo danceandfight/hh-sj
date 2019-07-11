@@ -1,6 +1,6 @@
 # HeadHunter / SuperJob analysis 
 
-This program searches [headhunter.ru](headhunter.ru) and [superjob.ru](superjob.ru) all vacations for most popular programming languages and shows statistics for the last 30 days (how many vactions, average salary).
+This program searches [headhunter.ru](headhunter.ru) and [superjob.ru](superjob.ru) all vacancies for most popular programming languages and shows statistics for the last 30 days (how many vactions, average salary).
 
 ### How to install
 
