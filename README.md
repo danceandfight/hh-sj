@@ -14,8 +14,8 @@ pip install -r requirements.txt
 
 ### How to use
 
-$ python3 main.py
-
+`$ python3 main.py`
+```
 +HeadHunter Москва------+------------------+---------------------+------------------+
 | Язык программирования | Вакансий найдено | Вакансий обработано | Средняя зарплата |
 +-----------------------+------------------+---------------------+------------------+
@@ -50,7 +50,7 @@ $ python3 main.py
 | PHP                   | 44               | 24                  | 70831            |
 | C#                    | 22               | 26                  | 91665            |
 +-----------------------+------------------+---------------------+------------------+
-
+```
 ### Project Goals
 
 The code is written for educational purposes on online-course for web-developers [dvmn.org](https://dvmn.org/).
