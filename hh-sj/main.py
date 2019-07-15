@@ -29,15 +29,14 @@ def fetch_rub_salary_hh(vacancy):
     return salary_from, salary_to
 
 def make_table(dict_with_languages_statistics, site):
-    TITLE = '{} Москва'.format(site)
-    TABLE_HEADER = ['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']
-    TABLE_DATA = [TABLE_HEADER]
-    
+    title = '{} Москва'.format(site)
+    table_header = ['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']
+    table_data = [table_header]
     for lang in dict_with_languages_statistics:
         lang_statistics = dict_with_languages_statistics[lang]
-        TABLE_ROW = [lang, lang_statistics['vacancies_found'], lang_statistics['vacancies_processed'], lang_statistics['average_salary']]
-        TABLE_DATA.append(TABLE_ROW)
-    table = AsciiTable(TABLE_DATA, TITLE)
+        table_row = [lang, lang_statistics['vacancies_found'], lang_statistics['vacancies_processed'], lang_statistics['average_salary']]
+        table_data.append(table_row)
+    table = AsciiTable(table_data, title)
     return table.table
 
 def get_hh_statistics(list_of_languages):
@@ -51,7 +50,7 @@ def get_hh_statistics(list_of_languages):
         while page < total_pages:
             payload = {'text': 'Программист Москва {}'.format(language), 'period': '30', 'page': page}
             response = requests.get(url, params=payload)
-            if response.ok == False or 'error' in response:
+            if not response.ok or 'error' in response:
                 raise requests.exceptions.HTTPError(response['error'])
             else:
                 total_pages = response.json()['pages']
@@ -73,10 +72,9 @@ def get_hh_statistics(list_of_languages):
     return headhunter_statistics
 
 def get_sj_statistics(list_of_languages):
-    secret_key = os.getenv('SJ_SECRET_KEY')
+    SECRET_KEY = os.getenv('SJ_SECRET_KEY')
     url = 'https://api.superjob.ru/2.0/vacancies/'
-    headers = {'X-Api-App-Id': secret_key}
-
+    headers = {'X-Api-App-Id': SECRET_KEY}
     superjob_statistics = {}
     for language in list_of_languages:
         api_code_moscow = 4
@@ -88,7 +86,7 @@ def get_sj_statistics(list_of_languages):
         language_vacancies_info = {}
         while page < total_pages:
             response = requests.get(url, params=payload, headers=headers)
-            if response.ok == False or 'error' in response:
+            if not response.ok or 'error' in response:
                 raise requests.exceptions.HTTPError(response['error'])
             else:
                 vacancies_per_page = 20
@@ -115,7 +113,6 @@ def main():
     languages = ['JavaScript', 'Java', 'Python', 'Ruby', 'PHP', 'C++', 'C#', 'C', 'GO', 'Objective-C', 'Scala', 'Swift', 'TypeScript']
     hh_statistics = get_hh_statistics(languages)
     sj_statistics = get_sj_statistics(languages)
-
     print(make_table(hh_statistics, 'HeadHunter'))
     print(make_table(sj_statistics, 'SuperJob'))
 
